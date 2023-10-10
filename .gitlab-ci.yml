@@ -1,0 +1,17 @@
+# .gitlab-ci.yml
+
+# Utilisez une image Docker avec Maven
+# Utilisez la même image pour tous les jobs
+image: maven:3-eclipse-temurin-17-alpine
+
+before_script:
+  - chmod 400 $CI_SSH_KEY
+  - apk add openssh-client
+
+deploy:
+  only:
+    - main
+  script:
+    - cd tp3
+    - mvn clean package
+    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY /builds/target/todos.war gitlabci@192.168.75.87:/opt/tomcat/webapps/v1.war
