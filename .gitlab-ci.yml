@@ -12,7 +12,7 @@ deploy:
     - chmod 400 $CI_SSH_KEY
     - apk add openssh-client
   script:
-    - cd ./$TP_DIR
+    - cd $TP_DIR
     - mvn clean package
     - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY /builds/./target/todos.war gitlabci@192.168.75.87:/opt/tomcat/webapps/$TOMCAT_DEPLOY_PATH
 
