@@ -4,6 +4,7 @@ import fr.univlyon1.m1if.m1if03.classes.Todo;
 
 import fr.univlyon1.m1if.m1if03.classes.User;
 import fr.univlyon1.m1if.m1if03.daos.Dao;
+import fr.univlyon1.m1if.m1if03.daos.TodoDao;
 import fr.univlyon1.m1if.m1if03.exceptions.MissingParameterException;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -13,7 +14,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.Serializable;
+//import java.util.List;
 import java.util.Objects;
 
 /**
@@ -39,7 +41,7 @@ public class TodoList extends HttpServlet {
     @SuppressWarnings("unchecked")
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            List<Todo> todos = (List<Todo>) this.getServletContext().getAttribute("todos");
+            TodoDao todos = (TodoDao) this.getServletContext().getAttribute("todos");
             switch (request.getParameter("operation")) {
                 case "add" -> {
                     if (request.getParameter("title") == null || request.getParameter("login") == null) {
@@ -51,11 +53,11 @@ public class TodoList extends HttpServlet {
                 }
                 case "update" -> {
                     // Récupération de l'index
-                    int index = Integer.parseInt(request.getParameter("index"));
-                    if (index < 0 || index >= todos.size()) {
-                        throw new StringIndexOutOfBoundsException("Pas de todo avec l'index " + index + ".");
-                    }
-                    Todo todo = todos.get(index);
+                    Serializable index = Integer.parseInt(request.getParameter("index"));
+                    // if (index < 0 || index >= todos.size()) {
+                        // throw new StringIndexOutOfBoundsException("Pas de todo avec l'index " + index + ".");
+                    // }
+                    Todo todo = todos.findOne(index);
                     if (request.getParameter("toggle") != null && !request.getParameter("toggle").isEmpty()) {
                         todo.setCompleted(Objects.equals(request.getParameter("toggle"), "Done!"));
                     } else {
