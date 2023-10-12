@@ -1,10 +1,10 @@
 package fr.univlyon1.m1if.m1if03.servlets;
 
-import fr.univlyon1.m1if.m1if03.classes.Todo;
 import fr.univlyon1.m1if.m1if03.classes.User;
 
 import fr.univlyon1.m1if.m1if03.daos.Dao;
 import fr.univlyon1.m1if.m1if03.daos.UserDao;
+import fr.univlyon1.m1if.m1if03.daos.TodoDao;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import javax.naming.NameAlreadyBoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Cette servlet initialise les objets communs à toute l'application,
@@ -42,7 +41,7 @@ public class Connect extends HttpServlet {
         // Elles seront stockées dans le contexte applicatif pour pouvoir être accédées par tous les objets de l'application :
         context.setAttribute("users", users);
         // A modifier (DAO)
-        context.setAttribute("todos", new ArrayList<Todo>());
+        context.setAttribute("todos", new TodoDao());
     }
 
     @Override
