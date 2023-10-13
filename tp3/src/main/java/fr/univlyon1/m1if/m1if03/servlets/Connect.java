@@ -1,10 +1,6 @@
-package fr.univlyon1.m1if.m1if03.servlets;
-
 import fr.univlyon1.m1if.m1if03.classes.User;
-
 import fr.univlyon1.m1if.m1if03.daos.Dao;
 import fr.univlyon1.m1if.m1if03.daos.UserDao;
-import fr.univlyon1.m1if.m1if03.daos.TodoDao;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -25,23 +21,14 @@ import java.io.IOException;
  */
 @WebServlet(name = "Connect", urlPatterns = {"/connect"})
 public class Connect extends HttpServlet {
-    // Elles seront stockées dans le contexte applicatif pour pouvoir être accédées par tous les objets de l'application :
+    private Dao<User> users; // Plus besoin d'initialiser ici
 
-    // DAO d'objets User
-    private final Dao<User> users = new UserDao();
-
-    @Override
     public void init(ServletConfig config) throws ServletException {
-        // Cette instruction doit toujours être au début de la méthode init() pour pouvoir accéder à l'objet config.
         super.init(config);
-        //Récupère le contexte applicatif et y place les variables globales
         ServletContext context = config.getServletContext();
-
-        // Variables communes pour toute l'application (remplacent la BD).
-        // Elles seront stockées dans le contexte applicatif pour pouvoir être accédées par tous les objets de l'application :
-        context.setAttribute("users", users);
-        // A modifier (DAO)
-        context.setAttribute("todos", new TodoDao());
+        
+        // Récupère le DAO d'utilisateurs depuis le contexte
+        users = (UserDao) context.getAttribute("users");
     }
 
     @Override
@@ -53,17 +40,11 @@ public class Connect extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Un utilisateur avec le login " + user.getLogin() + " existe déjà.");
             return;
         }
-        // Ceci est une redirection HTTP : le client est informé de cette redirection.
         response.sendRedirect("interface.jsp");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        // Utilise un RequestDispatcher pour "transférer" la requête à un autre objet, en interne du serveur.
-        // Ceci n'est pas une redirection HTTP ; le client n'est pas informé de cette redirection.
-        // Note :
-        //     il existe deux méthodes pour transférer une requête (et une réponse) à l'aide d'un RequestDispatcher : include et forward
-        //     voir les différences ici : https://docs.oracle.com/javaee/6/tutorial/doc/bnagi.html
         request.getRequestDispatcher("interface.jsp").forward(request, response);
     }
 }
