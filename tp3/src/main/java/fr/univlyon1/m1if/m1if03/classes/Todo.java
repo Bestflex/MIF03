@@ -1,5 +1,6 @@
 package fr.univlyon1.m1if.m1if03.classes;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,17 +14,19 @@ public class Todo {
     private final int hash;
     private String title;
     private User assignee = null;
+    private Serializable assigneeId = null;
     private boolean completed = false;
 
     /**
      * Création d'un TODO_.
      * @param title Texte indiqué dans le TODO_
-     * @param creator Login de l'utilisateur créateur
+     * @param creatorId Login de l'utilisateur créateur
      */
-    public Todo(String title, String creator) {
+    public Todo(String title, Serializable creatorId) {
         this.title = title;
         // On rassemble toutes les infos sur l'instance, pour permettre de les distinguer
-        this.hash = Objects.hash(title, creator, (new Date()).getTime());
+        this.assigneeId = creatorId;
+        this.hash = Objects.hash(title, creatorId, (new Date()).getTime());
     }
 
     public String getTitle() {
@@ -39,8 +42,8 @@ public class Todo {
         this.title = title;
     }
 
-    public User getAssignee() {
-        return assignee;
+    public Serializable getAssigneeId() {
+        return assigneeId;
     }
 
     /**
@@ -48,8 +51,8 @@ public class Todo {
      * @param assignee Login de l'utilisateur à assigner
      */
     public void setAssignee(User assignee) {
-        this.assignee = assignee;
-    }
+    this.assigneeId = assignee != null ? assignee.getLogin() : null;
+}
 
     public boolean isCompleted() {
         return completed;

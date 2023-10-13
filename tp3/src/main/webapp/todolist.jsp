@@ -22,8 +22,8 @@
             <td>${todo.completed ? "&#x2611;" : "&#x2610;"}</td>
             <td><em>${todo.title}</em></td>
             <td>
-                <c:if test="${todo.assignee != null}"><a href="user.jsp?user=${todo.assignee.login}">${todo.assignee.login}</a></c:if>
-                <c:if test="${!todo.completed && todo.assignee.login != sessionScope.login}">
+                <c:if test="${todo.assigneeId != null}"><a href="user.jsp?user=${todo.getAssigneeId()}">${todo.getAssigneeId()}</a></c:if>
+                <c:if test="${!todo.completed && todo.getAssigneeId() != sessionScope.login}">
                     <input type='submit' name='assign' value='Choisir cette tâche'>&nbsp;
                 </c:if>
             </td>

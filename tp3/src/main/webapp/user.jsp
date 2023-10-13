@@ -22,7 +22,7 @@
     Todos:
     <ul>
         <c:forEach items="${applicationScope.todos.findAll()}" var="todo">
-            <c:if test="${todo.assignee != null && todo.assignee.equals(user)}">
+            <c:if test="${todo.assigneeId != null && todo.assigneeId.equals(user)}">
                 <li><a href="todolist#${todo.hashCode()}">${todo.title}</a></li>
             </c:if>
         </c:forEach>
