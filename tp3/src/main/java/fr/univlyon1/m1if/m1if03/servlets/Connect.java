@@ -1,3 +1,5 @@
+package fr.univlyon1.m1if.m1if03.servlets;
+
 import fr.univlyon1.m1if.m1if03.classes.User;
 import fr.univlyon1.m1if.m1if03.daos.Dao;
 import fr.univlyon1.m1if.m1if03.daos.UserDao;
@@ -8,8 +10,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
+import javax.naming.InvalidNameException;
 import javax.naming.NameAlreadyBoundException;
+import javax.naming.NameNotFoundException;
+
 import java.io.IOException;
 
 /**
@@ -31,9 +37,13 @@ public class Connect extends HttpServlet {
         users = (UserDao) context.getAttribute("users");
     }
 
-    @Override
+     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User(request.getParameter("login"), request.getParameter("name"));
+        // Créez un attribut de session pour l'utilisateur connecté
+        HttpSession session = request.getSession(true);
+        session.setAttribute("login", user.getLogin());
+        
         try {
             users.add(user);
         } catch (NameAlreadyBoundException e) {
@@ -43,8 +53,29 @@ public class Connect extends HttpServlet {
         response.sendRedirect("interface.jsp");
     }
 
-    @Override
+     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.getRequestDispatcher("interface.jsp").forward(request, response);
+        String operation = request.getParameter("operation");
+     // vérifier l'opération demandée et rediriger la requête vers la servlet "Deco" si l'opération est "deconnexion" 
+        
+     if (operation != null && operation.equals("true")) {
+        HttpSession session = request.getSession(false);
+        String login = null;
+        
+        try{
+            if (session != null) {
+                login = (String) session.getAttribute("login");
+                session.invalidate();
+            }
+            ((Dao<User>) this.getServletContext().getAttribute("users")).deleteById(login);
+            response.sendRedirect("index.html");
+        } catch (NameNotFoundException | InvalidNameException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Le login de l'utilisateur courant est erroné : " + login + ".");
+        }
+    } else {
+        // Gérer d'autres opérations si nécessaire
+       
+        response.sendRedirect("index.html");
+    }
     }
 }
