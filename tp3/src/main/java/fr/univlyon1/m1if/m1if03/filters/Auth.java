@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +19,7 @@ import java.util.Arrays;
  */
 @WebFilter(filterName = "Auth", urlPatterns = {"*"})
 public class Auth extends HttpFilter {
-    private final String[] whiteList = {"/", "/index.html", "/css/style.css"};
+    private final String[] whiteList = {"/", "/index.html", "/css/style.css",  "/connect"};
 
     @Override
     public void init(FilterConfig config) throws ServletException {
@@ -29,31 +28,13 @@ public class Auth extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        // Permet de retrouver la fin de l'URL (après l'URL du contexte) ; indépendant de l'URL de déploiement
         String url = request.getRequestURI().replace(request.getContextPath(), "");
 
-        // Laisse passer les URLs ne nécessitant pas d'authentification et les requêtes par des utilisateurs authentifiés
-        // Note :
-        //   le paramètre false dans request.getSession(false) permet de récupérer null si la session n'est pas déjà créée.
-        //   Sinon, l'appel de la méthode getSession() la crée automatiquement.
         if (Arrays.asList(whiteList).contains(url) || request.getSession(false) != null) {
             chain.doFilter(request, response);
             return;
         }
 
-        // Traite les formulaires d'authentification
-        String login = request.getParameter("login");
-        if (url.equals("/connect") &&
-                request.getMethod().equals("POST") && // Vérifie si la méthode est POST
-                login != null && !login.isEmpty()) {  // Vérifie si des données de formulaire de connexion sont présentes
-            // Gestion de la session utilisateur
-            HttpSession session = request.getSession(true);
-            session.setAttribute("login", login);
-            chain.doFilter(request, response);
-            return;
-        }
-
-        // Bloque les autres requêtes
         response.sendError(HttpServletResponse.SC_FORBIDDEN, "Vous devez vous connecter pour accéder au site.");
     }
 }
