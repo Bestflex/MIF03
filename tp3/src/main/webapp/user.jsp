@@ -19,7 +19,7 @@
     </form>
     <c:if test="${sessionScope.login.equals(user.login)}">
     <br>
-    Todos:
+    Todos: 
     <ul>
         <c:forEach items="${applicationScope.todos.findAll()}" var="todo">
             <c:if test="${todo.getAssigneeId() != null && todo.getAssigneeId().equals(user.getLogin())}">

@@ -14,7 +14,7 @@
     <tr>
         <th></th>
         <th>Titre</th>
-        <th>Utilisateur assigné</th>
+        <th>Utilisateur assigne</th>
     </tr>
     <c:forEach var="todo" items="${applicationScope.todos.findAll()}">
     <form method="POST" action="todolist">
@@ -24,7 +24,7 @@
             <td>
                 <c:if test="${todo.assigneeId != null}"><a href="user.jsp?user=${todo.getAssigneeId()}">${todo.getAssigneeId()}</a></c:if>
                 <c:if test="${!todo.completed && todo.getAssigneeId() != sessionScope.login}">
-                    <input type='submit' name='assign' value='Choisir cette tâche'>&nbsp;
+                    <input type='submit' name='assign' value='Choisir cette tâche'>
                 </c:if>
             </td>
             <td>

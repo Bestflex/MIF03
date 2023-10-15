@@ -22,25 +22,30 @@
         response.sendRedirect("interface.jsp");
     } else {
 %>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>TODOs</title>
-    <link rel="stylesheet" href="css/style.css">
-    <meta http-equiv="refresh" content="5">
-</head>
-<body>
 
-<h2>Liste des utilisateurs connectés</h2>
-<p>Il y a actuellement ${applicationScope.users.findAll().size()} utilisateur(s) connect&eacute;(s) :</p>
-<ul>
-    <c:forEach items="${applicationScope.users.findAll()}" var="u">
-        <li>${u.login} : <strong><a href="user.jsp?user=${u.login}">${u.name}</a></strong></li>
-    </c:forEach>
-</ul>
-</body>
-</html>
-<%
-    }
-%>
+  <!DOCTYPE html>
+  <html lang="fr">
+    <head>
+      <meta charset="UTF-8" />
+      <title>TODOs</title>
+      <link rel="stylesheet" href="css/style.css" />
+      <meta http-equiv="refresh" content="5" />
+    </head>
+    <body>
+      <h2>Liste des utilisateurs connectés</h2>
+      <p>
+        Il y a actuellement ${applicationScope.users.findAll().size()}
+        utilisateur(s) connecté(s) :
+      </p>
+      <ul>
+        <c:forEach items="${applicationScope.users.findAll()}" var="u">
+          <li>
+            ${u.login} :
+            <strong><a href="user.jsp?user=${u.login}">${u.name}</a></strong>
+          </li>
+        </c:forEach>
+      </ul>
+    </body>
+  </html>
+  <% } %></User
+>

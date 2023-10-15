@@ -13,7 +13,6 @@ import java.util.Objects;
 public class Todo {
     private final int hash;
     private String title;
-    private User assignee = null;
     private Serializable assigneeId = null;
     private boolean completed = false;
 
@@ -50,7 +49,7 @@ public class Todo {
      * Assigne un utilisateur à la réalisation du TODO_.
      * @param assignee Login de l'utilisateur à assigner
      */
-    public void setAssignee(User assignee) {
+    public void setAssigneeId(User assignee) {
     this.assigneeId = assignee != null ? assignee.getLogin() : null;
 }
 

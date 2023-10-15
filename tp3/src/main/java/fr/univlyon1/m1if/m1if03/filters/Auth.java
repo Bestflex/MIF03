@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +19,7 @@ import java.util.Arrays;
  */
 @WebFilter(filterName = "Auth", urlPatterns = {"*"})
 public class Auth extends HttpFilter {
-    private final String[] whiteList = {"/", "/index.html", "/css/style.css"};
+    private final String[] whiteList = {"/", "/index.html", "/css/style.css",  "/connect"};
 
     @Override
     public void init(FilterConfig config) throws ServletException {
@@ -37,18 +36,6 @@ public class Auth extends HttpFilter {
         //   le paramètre false dans request.getSession(false) permet de récupérer null si la session n'est pas déjà créée.
         //   Sinon, l'appel de la méthode getSession() la crée automatiquement.
         if (Arrays.asList(whiteList).contains(url) || request.getSession(false) != null) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        // Traite les formulaires d'authentification
-        String login = request.getParameter("login");
-        if (url.equals("/connect") &&
-                request.getMethod().equals("POST") &&
-                login != null && !login.isEmpty()) {
-            // Gestion de la session utilisateur
-            HttpSession session = request.getSession(true);
-            session.setAttribute("login", login);
             chain.doFilter(request, response);
             return;
         }
