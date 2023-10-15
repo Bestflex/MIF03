@@ -4,25 +4,21 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
-    <!-- Déclaration du filtre "Auth" -->
     <filter>
         <filter-name>Auth</filter-name>
         <filter-class>fr.univlyon1.m1if.m1if03.filters.Auth</filter-class>
     </filter>
 
-    <!-- Déclaration du filtre "Autorisation" -->
     <filter>
         <filter-name>Autorisation</filter-name>
         <filter-class>fr.univlyon1.m1if.m1if03.filters.Autorisation</filter-class>
     </filter>
 
-    <!-- Mapping du filtre "Auth" pour qu'il s'applique à toutes les URLs -->
     <filter-mapping>
         <filter-name>Auth</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Mapping du filtre "Autorisation" pour les URLs spécifiques où vous souhaitez vérifier l'autorisation -->
     <filter-mapping>
         <filter-name>Autorisation</filter-name>
         <url-pattern>/userlist.jsp</url-pattern>

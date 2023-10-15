@@ -28,13 +28,19 @@ public class Auth extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        // Permet de retrouver la fin de l'URL (après l'URL du contexte) ; indépendant de l'URL de déploiement
         String url = request.getRequestURI().replace(request.getContextPath(), "");
 
+        // Laisse passer les URLs ne nécessitant pas d'authentification et les requêtes par des utilisateurs authentifiés
+        // Note :
+        //   le paramètre false dans request.getSession(false) permet de récupérer null si la session n'est pas déjà créée.
+        //   Sinon, l'appel de la méthode getSession() la crée automatiquement.
         if (Arrays.asList(whiteList).contains(url) || request.getSession(false) != null) {
             chain.doFilter(request, response);
             return;
         }
 
+        // Bloque les autres requêtes
         response.sendError(HttpServletResponse.SC_FORBIDDEN, "Vous devez vous connecter pour accéder au site.");
     }
 }

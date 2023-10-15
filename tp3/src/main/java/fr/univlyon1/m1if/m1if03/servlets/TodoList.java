@@ -1,7 +1,6 @@
 package fr.univlyon1.m1if.m1if03.servlets;
 
 import fr.univlyon1.m1if.m1if03.classes.Todo;
-
 import fr.univlyon1.m1if.m1if03.classes.User;
 import fr.univlyon1.m1if.m1if03.daos.Dao;
 import fr.univlyon1.m1if.m1if03.daos.TodoDao;
@@ -15,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.Serializable;
-//import java.util.List;
 import java.util.Objects;
 
 /**
@@ -54,9 +52,6 @@ public class TodoList extends HttpServlet {
                 case "update" -> {
                     // Récupération de l'index
                     Serializable index = Integer.parseInt(request.getParameter("index"));
-                    // if (index < 0 || index >= todos.size()) {
-                        // throw new StringIndexOutOfBoundsException("Pas de todo avec l'index " + index + ".");
-                    // }
                     Todo todo = todos.findOne(index);
                     if (request.getParameter("toggle") != null && !request.getParameter("toggle").isEmpty()) {
                         todo.setCompleted(Objects.equals(request.getParameter("toggle"), "Done!"));
@@ -64,7 +59,7 @@ public class TodoList extends HttpServlet {
                         if (request.getParameter("assign") != null && !request.getParameter("assign").isEmpty()) {
                             String login = (String) request.getSession().getAttribute("login");
                             User user = ((Dao<User>) this.getServletContext().getAttribute("users")).findOne(login);
-                            todo.setAssignee(user);
+                            todo.setAssigneeId(user);
                         } else {
                             throw new MissingParameterException("Modification à réaliser non spécifiée.");
                         }

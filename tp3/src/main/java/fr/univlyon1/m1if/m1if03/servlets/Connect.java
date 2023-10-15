@@ -1,3 +1,5 @@
+package fr.univlyon1.m1if.m1if03.servlets;
+
 import fr.univlyon1.m1if.m1if03.classes.User;
 import fr.univlyon1.m1if.m1if03.daos.Dao;
 import fr.univlyon1.m1if.m1if03.daos.UserDao;
@@ -27,7 +29,9 @@ public class Connect extends HttpServlet {
     private Dao<User> users;
 
     public void init(ServletConfig config) throws ServletException {
+        // Cette instruction doit toujours être au début de la méthode init() pour pouvoir accéder à l'objet config.
         super.init(config);
+        //Récupère le contexte applicatif et y place les variables globales
         ServletContext context = config.getServletContext();
 
         // Récupère le DAO d'utilisateurs depuis le contexte

@@ -1,6 +1,5 @@
 package fr.univlyon1.m1if.m1if03.filters;
 
-// import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
@@ -12,10 +11,8 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Filtre d'autorisation pour la modification du nom d'un utilisateur.
  * Ce filtre vérifie si l'utilisateur actuellement connecté a le droit de modifier le nom d'un utilisateur.
- * Si l'utilisateur est autorisé, la requête est transmise à la servlet suivante dans la chaîne.
- * Sinon, une réponse HTTP 403 (Forbidden) est renvoyée.
+ * @author Oussama Benaziz
  */
 @WebFilter(filterName = "Autorisation", urlPatterns = {"/userlist.jsp"})
 public class Autorisation extends HttpFilter {

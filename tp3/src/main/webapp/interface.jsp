@@ -29,10 +29,7 @@
           <a href="todolist" target="list">Tâches</a>
         </div>
         <div>
-          <!-- j'ai utilisé la valeur deconnexion comme parametre d'operation -->
           <a href="connect?operation=deconnexion">Déconnexion</a>
-
-          <!--<a href="deco">Déconnexion</a>-->
         </div>
       </aside>
 
