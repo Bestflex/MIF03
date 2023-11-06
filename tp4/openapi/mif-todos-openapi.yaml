@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  description: "Description de l'API du serveur de gestion des ressources de l'applicaiton \"MIF-Todos\".<br>Vous pouvez changer l'URL dans <code>servers</code> pour l'adapter au déploiement que vous souhaitez tester. Les autres valeurs ne doivent pas être modifiées.<br>**Pour tester les requêtes avec _Try it out_, il vous faut rajouter la configuration du CorsFilter de Tomcat** (voir énoncé du TP)."
+  description: "Description de l'API du serveur de gestion des ressources de l'application \"MIF-Todos\".<br>Vous pouvez changer l'URL dans <code>servers</code> pour l'adapter au déploiement que vous souhaitez tester. Les autres valeurs ne doivent pas être modifiées.<br>**Pour tester les requêtes avec _Try it out_, il vous faut rajouter la configuration du CorsFilter de Tomcat** (voir énoncé du TP)."
   version: "1.0.0"
   title: "Mif-Todos"
 externalDocs:
