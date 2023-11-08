@@ -36,7 +36,7 @@ public abstract class AbstractListDao<T> implements Dao<T> {
         if(index == -1) {
             throw new NameNotFoundException(element.toString());
         }
-        this.collection.set(index, null);
+        this.collection.remove(element);
     }
 
     @Override
