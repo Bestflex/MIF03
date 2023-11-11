@@ -1,5 +1,17 @@
 package fr.univlyon1.m1if.m1if03.controllers;
 
+import fr.univlyon1.m1if.m1if03.dao.TodoDao;
+import fr.univlyon1.m1if.m1if03.dto.todo.TodoRequestDto;
+import fr.univlyon1.m1if.m1if03.model.Todo;
+
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
@@ -40,8 +52,8 @@ public class TodoBusinessController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            int hash = Integer.parseInt(request.getParameter("hash"));
-            todoBusiness.toggleStatus(hash);
+            TodoRequestDto requestDto = (TodoRequestDto) request.getAttribute("dto");
+            todoBusiness.toggleStatus(requestDto.getHash());
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } catch (IllegalArgumentException ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
