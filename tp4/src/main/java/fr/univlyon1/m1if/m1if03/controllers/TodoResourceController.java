@@ -4,11 +4,8 @@ import fr.univlyon1.m1if.m1if03.dao.TodoDao;
 import fr.univlyon1.m1if.m1if03.dto.todo.TodoDtoMapper;
 import fr.univlyon1.m1if.m1if03.dto.todo.TodoRequestDto;
 import fr.univlyon1.m1if.m1if03.dto.todo.TodoResponseDto;
-import fr.univlyon1.m1if.m1if03.dto.user.UserRequestDto;
-import fr.univlyon1.m1if.m1if03.dto.user.UserResponseDto;
 import fr.univlyon1.m1if.m1if03.exceptions.ForbiddenLoginException;
 import fr.univlyon1.m1if.m1if03.model.Todo;
-import fr.univlyon1.m1if.m1if03.model.User;
 import fr.univlyon1.m1if.m1if03.utils.UrlUtils;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -19,11 +16,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 
 import javax.naming.InvalidNameException;
-import javax.naming.NameAlreadyBoundException;
 import javax.naming.NameNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Objects;
 
 /**
  * Contrôleur de ressources "todos".<br>
@@ -235,7 +230,9 @@ public class TodoResourceController extends HttpServlet {
          * Constructeur avec une injection du DAO nécessaire aux opérations.
          * @param todoDao le DAO des todos provenant du contexte applicatif
          */
-        TodoResource(TodoDao todoDao) { this.todoDao = todoDao; }
+        TodoResource(TodoDao todoDao) {
+			this.todoDao = todoDao; 
+		}
 
         /**
          * Crée un todos.

@@ -18,6 +18,14 @@ import jakarta.servlet.annotation.WebFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * Filtre de négociation de contenu pour gérer la sérialisation et la désérialisation des objets DTO.
+ *
+ * Ce filtre analyse le type de requête (GET, POST, PUT, DELETE) et les types de médias acceptables pour générer des réponses appropriées.
+ * Il prend en charge les formats de contenu text/html, application/xml et application/json.
+ *
+ * @author Lionel Médini
+ */
 @WebFilter(filterName = "ContentNegotiationFilter")
 public class ContentNegotiationFilter extends HttpFilter {
     @Override

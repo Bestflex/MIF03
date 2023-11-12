@@ -15,16 +15,6 @@ import jakarta.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-import fr.univlyon1.m1if.m1if03.dao.TodoDao;
-import fr.univlyon1.m1if.m1if03.model.Todo;
-import jakarta.servlet.ServletConfig;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
-
 /**
  * Contrôleur d'opérations métier "todos".<br>
  * Concrètement : change le status d'un todo
