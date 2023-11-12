@@ -5,6 +5,7 @@ import fr.univlyon1.m1if.m1if03.dto.todo.TodoDtoMapper;
 import fr.univlyon1.m1if.m1if03.dto.todo.TodoRequestDto;
 import fr.univlyon1.m1if.m1if03.dto.todo.TodoResponseDto;
 import fr.univlyon1.m1if.m1if03.exceptions.ForbiddenLoginException;
+import fr.univlyon1.m1if.m1if03.utils.TodosM1if03JwtHelper;
 import fr.univlyon1.m1if.m1if03.model.Todo;
 import fr.univlyon1.m1if.m1if03.utils.UrlUtils;
 import jakarta.servlet.ServletConfig;
@@ -19,6 +20,7 @@ import javax.naming.InvalidNameException;
 import javax.naming.NameNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Contrôleur de ressources "todos".<br>
@@ -68,7 +70,7 @@ public class TodoResourceController extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
             }
         } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
@@ -169,25 +171,20 @@ public class TodoResourceController extends HttpServlet {
         String[] url = UrlUtils.getUrlParts(request);
         String todoId = url[1];
         TodoRequestDto requestDto = (TodoRequestDto) request.getAttribute("dto");
-
         if (url.length == 2) {
             try {
                 todoResource.update(Integer.parseInt(todoId), requestDto.getTitle(), requestDto.getAssignee());
-                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-            } catch (IllegalArgumentException ex) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-            } catch (NameNotFoundException e) {
-                try {
-                    int newTodoId = todoResource.create(requestDto.getTitle(), requestDto.getCreator());
-                    response.setHeader("Location", "todos/" + newTodoId);
-                    response.setStatus(HttpServletResponse.SC_CREATED);
-                } catch (IllegalArgumentException ex) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-                } catch (ForbiddenLoginException ex) {
-                    throw new RuntimeException(ex);
+                if (requestDto.getAssignee() != null) {
+                    String userURI = "users/" + requestDto.getAssignee();
+                    List<Integer> userTodos = todoResource.readList(requestDto.getAssignee());
+                    String token = TodosM1if03JwtHelper.generateToken(userURI, userTodos, request);
+                    response.setHeader("Authorization", "Bearer " + token);
                 }
+                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            } catch (IllegalArgumentException | NameNotFoundException ex) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
             } catch (InvalidNameException ignored) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Vérifiez la syntaxe de la requête envoyée.");
+                // Ne devrait pas arriver car les paramètres sont déjà des Strings
             }
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -231,8 +228,8 @@ public class TodoResourceController extends HttpServlet {
          * @param todoDao le DAO des todos provenant du contexte applicatif
          */
         TodoResource(TodoDao todoDao) {
-			this.todoDao = todoDao; 
-		}
+            this.todoDao = todoDao;
+        }
 
         /**
          * Crée un todos.
@@ -281,6 +278,13 @@ public class TodoResourceController extends HttpServlet {
                 throw new IllegalArgumentException("Le hash du todo demandé ne doit pas être nul.");
             }
             return todoDao.findByHash(hash);
+        }
+
+        public List<Integer> readList(@NotNull String assignee) throws IllegalArgumentException, NameNotFoundException, InvalidNameException {
+            if (assignee == null || assignee.isEmpty()) {
+                throw new IllegalArgumentException("Le string assignee ne doit pas être null ou vide.");
+            }
+            return todoDao.findByAssignee(assignee).stream().map(Todo::hashCode).toList();
         }
 
         /**
