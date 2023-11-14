@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 
     <link rel="stylesheet" href="css/app.css">
+    <script type="application/javascript" src="js/api-base.js"></script>
     <script type="application/javascript" src="js/spa.js"></script>
 </head>
 <body>
@@ -108,30 +109,35 @@
                     <th>Titre</th>
                     <th>Assigné à</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 <tr class="special">
-                    <td>&#x2611;&nbsp;</td>
+                    <td>&#x2611;</td>
                     <td>Titre du premier todo</td>
                     <td><a href="#user/toto">Toto</a></td>
                     <td><button type="button" class="btn btn-secondary" id="idTodo1_removeUser_button">Me retirer ce todo</button></td>
+                    <td><button type="button" class="btn btn-secondary" id="idTodo1_removeTodo_button">Supprimer ce todo</button></td>
                 </tr>
                 <tr>
-                    <td>&#x2610;&nbsp;</td>
+                    <td>&#x2610;</td>
                     <td>Titre du deuxième todo</td>
                     <td><a href="#user/titi">Titi</a></td>
                     <td><button type="button" class="btn btn-secondary" id="idTodo2_assignUser_button">M'attribuer ce todo</button></td>
+                    <td><button type="button" class="btn btn-secondary" id="idTodo2_removeTodo_button">Supprimer ce todo</button></td>
                 </tr>
                 <tr class="special">
-                    <td>&#x2610;&nbsp;</td>
+                    <td>&#x2610;</td>
                     <td>Titre du troisième todo</td>
                     <td><a href="#user/toto">Toto</a></td>
                     <td><button type="button" class="btn btn-secondary" id="idTodo3_removeUser_button">Me retirer ce todo</button></td>
+                    <td><button type="button" class="btn btn-secondary" id="idTodo3_removeTodo_button">Supprimer ce todo</button></td>
                 </tr>
                 <tr>
-                    <td>&#x2610;&nbsp;</td>
+                    <td>&#x2610;</td>
                     <td>Titre du quatrième todo</td>
                     <td></td>
                     <td><button type="button" class="btn btn-secondary" id="idTodoN_assignUser_button">M'attribuer ce todo</button></td>
+                    <td><button type="button" class="btn btn-secondary" id="idTodoN_removeTodo_button">Supprimer ce todo</button></td>
                 </tr>
             </table>
             </div>

@@ -2,15 +2,6 @@
  * Placez ici les scripts qui seront exécutés côté client pour rendre l'application côté client fonctionnelle.
  */
 
-/**
- * URL de base de l'API à laquelle seront envoyées les requêtes.
- * Vous devrez probablement la modifier en fonction de l'URL de déploiement de l'API utilisée.<br>
- * <strong>Attention :</strong> si vous utilisez une API externe (sur un autre serveur),
- * il faut rajouter l'origine du client dans les paramètres du filtre CORS (fichier <code>web.xml</code> du TP4).
- * @type {string}
- */
-const baseUrl = "http://localhost:8080/todos_war/";
-
 // <editor-fold desc="Gestion de l'affichage">
 /**
  * Fait basculer la visibilité des éléments affichés quand le hash change.<br>
