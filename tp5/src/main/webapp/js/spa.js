@@ -3,6 +3,16 @@
  */
 
 // <editor-fold desc="Gestion de l'affichage">
+
+let user = {
+    login: '',
+    name: '',
+    assignedTodos: []
+}
+
+let userAuth = "";
+let users = [];
+
 /**
  * Fait basculer la visibilité des éléments affichés quand le hash change.<br>
  * Passe l'élément actif en inactif et l'élément correspondant au hash en actif.
@@ -43,6 +53,10 @@ function displayConnected(isConnected) {
     for(const element of elementsRequiringConnection) {
         element.style.visibility = visibilityValue;
     }
+    if(isConnected){
+        renderTemplate("wrapperHeaderTemplate", {name:user.login}, "wrapperHeader");
+    }
+
 }
 
 window.addEventListener('hashchange', () => { show(window.location.hash); });
@@ -70,7 +84,7 @@ function getNumberOfUsers() {
             }
         }).then((json) => {
             if(Array.isArray(json)) {
-                document.getElementById("nbUsers").innerText = json.length;
+                renderTemplate("NumTodoListTemplate", {utilisateurs:json.length},"NumTodoList");
             } else {
                 throw new Error(json + " is not an array.");
             }
@@ -117,5 +131,16 @@ function deco() {
     location.hash = "#index";
     displayConnected(false);
 }
+
+function renderTemplate(templateId, data, targetId) {
+    let template = document.getElementById(templateId);
+
+    if (template) {
+        document.getElementById(targetId).innerHTML = Mustache.render(template.innerHTML, data);
+    } else {
+        console.error("Erreur: Impossible de trouver l'élément avec l'ID spécifié.");
+    }
+}
+
 setInterval(getNumberOfUsers, 5000);
 // </editor-fold>
