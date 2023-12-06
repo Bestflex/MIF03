@@ -4,7 +4,7 @@ image: maven:3-eclipse-temurin-17-alpine
 
 cache:
   key: "$CI_SSH_NAME"
-  path:
+  paths:
     # Must be within the repository under test hence we can't use the
     # default ~/.m2
     - .m2/repository
