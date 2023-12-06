@@ -14,14 +14,14 @@ variables:
 
 deploy:
   only:
-    - TP3
+    - master
   before_script:
     - chmod 777 ./ci/setup-mvn-proxy.sh
     - ./ci/setup-mvn-proxy.sh
     - chmod 400 $CI_SSH_KEY
     - apk add openssh-client
   script:
-    - cd $TP_DIR/
+    - cd tp4
     - mvn clean package
-    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY target/todos.war gitlabci@192.168.75.87:/opt/tomcat/webapps/$TOMCAT_DEPLOY_PATH
+    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY target/todos.war gitlabci@192.168.75.87:/opt/tomcat/webapps/v3.war
 
