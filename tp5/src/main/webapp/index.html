@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="css/bootstrap.css">
 
     <link rel="stylesheet" href="css/app.css">
-    <script src="https://unpkg.com/mustache@latest"></script>
     <script type="application/javascript" src="js/api-base.js"></script>
     <script type="application/javascript" src="js/spa.js"></script>
+    <script src="https://unpkg.com/mustache@latest"></script>
 </head>
 <body>
+
 <header>
     <h1 class="header-titre">MIF-TODOS</h1>
     <script id="wrapperHeaderTemplate" type="x-tmpl-mustache">
@@ -22,9 +23,6 @@
         </div>
     </script>
     <div id="wrapperHeader"></div>
-    <!--
-        TODO faire en sorte de n'afficher la dernière div que si l'utilisateur est connecté.
-    -->
 </header>
 
 <div class="wrapper">
@@ -33,12 +31,10 @@
         <ul class="nav flex-column">
             <li class="nav-item"><a href='#index'>Accueil</a></li>
             <li class="nav-item"><a href='#connect'>Connexion</a></li>
-            <li class="requiresConnection nav-item"><a href='#monCompte'>Mon compte</a></li>
-            <li class="requiresConnection nav-item"><a href='#todoList'>Todos</a></li>
+            <li class="requiresConnection nav-item"><a href='#monCompte' onclick="getName(); getAllTodos();">Mon compte</a></li>
+            <li class="requiresConnection nav-item"><a href='#todoList' onclick="getAllTodos()">Todos</a></li>
         </ul>
-        <!--
-            TODO n'afficher "Mon compte" et "Todos" que si l'utilisateur est connecté.
-        -->
+
     </aside>
 
     <article class="contenu">
@@ -50,9 +46,7 @@
                 <p>Actuellement : <strong>{{utilisateurs}}</strong> utilisateurs inscrits.</p>
             </script>
             <div id="NumTodoList"></div>
-            <!--
-                TODO A vous de modifier cette section pour qu'elle affiche les bonnes données et qu'elle se recharge toutes les 5 secondes.
-            -->
+
         </section>
 
         <section id='connect' class='inactive'>
@@ -62,9 +56,7 @@
                     <tr><td><label for="password_input">Mot de passe :</label></td><td><input class="form-control" type="password" id="password_input"></td></tr>
                     <tr><td><button type="button" class="btn btn-secondary" id="login_button" onclick="connect()">Connexion</button></td></tr>
                 </table>
-            <!--
-                TODO envoyer la requête puis récupérer et stocker le token.
-            -->
+
         </section>
 
         <section id='deco' class='inactive'>
@@ -72,9 +64,7 @@
             <p>Cliquez ici pour vous déconnecter :
                 <button type="button" class="btn btn-secondary" id="logout_button" onclick="deco()">Déconnexion</button>
             </p>
-            <!--
-                TODO envoyer la requête de logout et afficher la page d'accueil sans les éléments pour lesquels il faut être connecté.
-            -->
+
         </section>
 
         <section id='monCompte' class='inactive'>
@@ -83,80 +73,35 @@
                 <table id='compteList'>
                     <tr><td>Login : </td><td><span>{{login}}</span></td></tr>
                     <tr>
-                        <td>Nom : </td>
-                        <td><span id="nom_update_input" contenteditable="true">{{name}}</span></td>
-                        <td><button type="button" class="btn btn-secondary" id="user_update_button">Modifier</button></td>
+                        <td><label for="name_update_input">Name :</label></td>
+                        <td><input class="form-control" type="text" id="name_update_input" placeholder="{{name}}"></td>
+                        <td><button type="button" class="btn btn-secondary" id="user_update_button" onclick="updateName()">Modifier</button></td>
                     </tr>
                     <tr>
                         <td><label for="password_update_input">Mot de passe :</label></td>
                         <td><input class="form-control" type="password" id="password_update_input"></td>
-                        <td><button type="button" class="btn btn-secondary" id="password_update_button">Modifier</button></td>
+                        <td><button type="button" class="btn btn-secondary" id="password_update_button" onclick="updatePassword()">Modifier</button></td>
                     </tr>
                 </table>
                 <div>Assigné à :
                     <ul>
                         {{#assignedTodos}}
-                            <li><a href="#todoList/{{todoId}}">{{todoTitle}}</a></li>
+                            <li><a href="#todoList/{{hash}}">{{title}}</a></li>
                         {{/assignedTodos}}
                     </ul>
                 </div>
             </script>
             <div id="monCompteT"></div>
-            <!--
-                TODO afficher les informations dans les champs, récupérer les informations sur les todos et générer les éléments et leurs IDs.
-            -->
+
         </section>
 
         <section id='todoList' class='inactive'>
             <script id="NumtodoList2Template" type="x-tmpl-mustache">
             <h2><strong>Liste des todos</strong></h2>
-            <p>Il y a actuellement <strong>{{assignedTodos.length}}</strong> todo(s).</p>
+            <p>Il y a actuellement <strong>{{nbTodos}}</strong> todo(s).</p>
             </script>
             <div id="NumtodoList2"></div>
-            <!--
-                TODO afficher le nombre de todos
-            -->
-            <script id="ListTemplate" type="x-tmpl-mustache">
-            <div class="list">
-            <table>
-                <tr>
-                    <th></th>
-                    <th>Titre</th>
-                    <th>Assigné à</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <tr class="special">
-                    <td>&#x2611;</td>
-                    <td>Titre du premier todo</td>
-                    <td><a href="#user/toto">Toto</a></td>
-                    <td><button type="button" class="btn btn-secondary" id="idTodo1_removeUser_button">Me retirer ce todo</button></td>
-                    <td><button type="button" class="btn btn-secondary" id="idTodo1_removeTodo_button">Supprimer ce todo</button></td>
-                </tr>
-                <tr>
-                    <td>&#x2610;</td>
-                    <td>Titre du deuxième todo</td>
-                    <td><a href="#user/titi">Titi</a></td>
-                    <td><button type="button" class="btn btn-secondary" id="idTodo2_assignUser_button">M'attribuer ce todo</button></td>
-                    <td><button type="button" class="btn btn-secondary" id="idTodo2_removeTodo_button">Supprimer ce todo</button></td>
-                </tr>
-                <tr class="special">
-                    <td>&#x2610;</td>
-                    <td>Titre du troisième todo</td>
-                    <td><a href="#user/toto">Toto</a></td>
-                    <td><button type="button" class="btn btn-secondary" id="idTodo3_removeUser_button">Me retirer ce todo</button></td>
-                    <td><button type="button" class="btn btn-secondary" id="idTodo3_removeTodo_button">Supprimer ce todo</button></td>
-                </tr>
-                <tr>
-                    <td>&#x2610;</td>
-                    <td>Titre du quatrième todo</td>
-                    <td></td>
-                    <td><button type="button" class="btn btn-secondary" id="idTodoN_assignUser_button">M'attribuer ce todo</button></td>
-                    <td><button type="button" class="btn btn-secondary" id="idTodoN_removeTodo_button">Supprimer ce todo</button></td>
-                </tr>
-            </table>
-            </div>
-            </script>
+
             <script id="ListTemplate" type="x-tmpl-mustache">
                 <div class="list">
                     <table>
@@ -170,31 +115,39 @@
                         {{#assignedTodos}}
                             <tr>
                                 <td>{{title}}</td>
-                                <td><a href="#user/{{creator}}">{{creator}}</a></td>
-                                <td><button type="button" class="btn btn-secondary" id="{{id}}_removeUser_button">Me retirer ce todo</button></td>
-                                <td><button type="button" class="btn btn-secondary" id="{{id}}_removeTodo_button">Supprimer ce todo</button></td>
+                                <td><a href="#user/{{assignee}}">{{assignee}}</a></td>
+                                <td><div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="status_{{todoId}}" {{#completed}}checked{{/completed}} onclick="setStatus('{{todoId}}')">
+
+                                    <label class="form-check-label" for="status_{{todoId}}">Complete</label>
+                                </div></td>
+                                <td><button type="button" class="btn btn-secondary" onclick="assignTodo('{{todoId}}')">M'attribuer ce todo</button></td>
+                                <td>
+                                    <div class="d-flex">
+                                        <input class="form-control" type="text" id="title_update_input{{todoId}}">
+                                        <button type="button" class="btn btn-secondary" onclick="updateTodo('{{todoId}}')">Modifier</button>
+                                    </div>
+                                </td>
+                                <td><button type="button" class="btn btn-secondary" onclick="deleteTodo('{{todoId}}', '{{title}}')">Supprimer ce todo</button></td>
                             </tr>
+
                         {{/assignedTodos}}
                     </table>
                 </div>
             </script>
 
             <div class="listT"></div>
-            <!--
-                TODO mettre en place une boucle sur les todos et afficher les données.
-                TODO recharger les informations toutes les 5 secondes.
-            -->
 
             <div class="container d-flex">
                 <div class ="row ">
                     <div class="col-sm-2">
-                        <label class="form-label" for="text">Titre :</label>
+                        <label class="form-label" for="newTodoTitle">Titre :</label>
                     </div>
                     <div class="col-sm-8">
-                        <input class="form-control" type="text" id="text" size="50">
+                        <input class="form-control" type="text" id="newTodoTitle" size="50">
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-secondary" id="addTodo_button">Créer un nouveau todo</button>
+                        <button type="button" class="btn btn-secondary" id="addTodo_button" onclick="createTodo()">Créer un nouveau todo</button>
                     </div>
                 </div>
             </div>
