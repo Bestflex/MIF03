@@ -245,7 +245,7 @@ function assignTodo(todoId) {
         })
 }
 
-async function getTodoAssignee(todoIds) {
+async function getTodoAssignee() {
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
@@ -257,34 +257,51 @@ async function getTodoAssignee(todoIds) {
         mode: "cors"
     };
 
-    // Tableau pour stocker les données à afficher dans le template
-    const assignedTodosData = [];
+    try {
+        const response = await fetch(baseUrl + "todos", requestConfig);
 
-    // Parcours des IDs fournis
-    for (const todoId of todoIds) {
-        try {
-            const response = await fetch(baseUrl + "todos/" + todoId, requestConfig);
-            if (response.ok) {
-                const todoData = await response.json();
-                console.log("todoData", todoData);
-                if (todoData.assignee === ("users/" + user.login)) {
-                    // Ajouter les données au tableau
-                    assignedTodosData.push({
-                        hash: todoData.hash,
-                        title: todoData.title,
-                        completed :todoData.completed
-                    });
-                }
-            } else {
-                console.error("Erreur lors de la récupération du todo " + todoId + ": " + response.status);
-            }
-        } catch (error) {
-            console.error("Erreur lors de la récupération du todo " + todoId + ": " + error);
+        if (!response.ok) {
+            throw new Error("Erreur à la récupération des todos");
         }
+
+        const todoIds = await response.json();
+
+        // Tableau pour stocker les données à afficher dans le template
+        const assignedTodosData = [];
+
+        // Parcours des IDs fournis
+        for (const todoId of todoIds) {
+            try {
+                const response = await fetch(baseUrl + "todos/" + todoId, requestConfig);
+                if (response.ok) {
+                    const todoData = await response.json();
+                    console.log("todoData", todoData);
+                    if (todoData.assignee === ("users/" + user.login)) {
+                        // Ajouter les données au tableau
+                        assignedTodosData.push({
+                            hash: todoData.hash,
+                            title: todoData.title,
+                            completed: todoData.completed
+                        });
+                    }
+                } else {
+                    console.error("Erreur lors de la récupération du todo " + todoId + ": " + response.status);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération du todo " + todoId + ": " + error);
+            }
+        }
+        // Après la boucle, rendre le template avec toutes les données accumulées
+        renderTemplate('monCompteTemplate', {
+            login: user.login,
+            name: user.name,
+            assignedTodos: assignedTodosData
+        }, 'monCompteT');
+    } catch (error) {
+        console.error("Erreur à la récupération des todos", error);
     }
-    // Après la boucle, rendre le template avec toutes les données accumulées
-    renderTemplate('monCompteTemplate', { login: user.login, name: user.name, assignedTodos: assignedTodosData }, 'monCompteT');
 }
+
 
 
 /**
@@ -337,9 +354,6 @@ async function getAllTodos() {
         const listTemplate = document.getElementById("ListTemplate").innerHTML;
         const renderedList = Mustache.render(listTemplate, { assignedTodos: detailedTodos });
         document.querySelector(".listT").innerHTML = renderedList;
-
-        //renderTemplate("NumtodoList2Template", {assignedTodos: detailedTodos.length },"NumTodoList2");
-        await getTodoAssignee(todoIds);
 
     } catch (error) {
         console.error("Erreur à la récupération des todos", error);

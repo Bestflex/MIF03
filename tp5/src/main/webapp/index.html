@@ -31,7 +31,7 @@
         <ul class="nav flex-column">
             <li class="nav-item"><a href='#index'>Accueil</a></li>
             <li class="nav-item"><a href='#connect'>Connexion</a></li>
-            <li class="requiresConnection nav-item"><a href='#monCompte' onclick="getName(); getAllTodos();">Mon compte</a></li>
+            <li class="requiresConnection nav-item"><a href='#monCompte' onclick="getName(); getTodoAssignee();">Mon compte</a></li>
             <li class="requiresConnection nav-item"><a href='#todoList' onclick="getAllTodos()">Todos</a></li>
         </ul>
 
@@ -124,7 +124,7 @@
                                 <td><button type="button" class="btn btn-secondary" onclick="assignTodo('{{todoId}}')">M'attribuer ce todo</button></td>
                                 <td>
                                     <div class="d-flex">
-                                        <input class="form-control" type="text" id="title_update_input{{todoId}}">
+                                        <input class="form-control" type="text" id="title_update_input{{todoId}}" value="update title todo">
                                         <button type="button" class="btn btn-secondary" onclick="updateTodo('{{todoId}}')">Modifier</button>
                                     </div>
                                 </td>
@@ -144,7 +144,7 @@
                         <label class="form-label" for="newTodoTitle">Titre :</label>
                     </div>
                     <div class="col-sm-8">
-                        <input class="form-control" type="text" id="newTodoTitle" size="50">
+                        <input class="form-control" type="text" id="newTodoTitle" size="50" value="new todo">
                     </div>
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-secondary" id="addTodo_button" onclick="createTodo()">Créer un nouveau todo</button>
