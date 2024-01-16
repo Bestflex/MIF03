@@ -302,8 +302,6 @@ async function getTodoAssignee() {
     }
 }
 
-
-
 /**
  * Envoie la requête pour tous les todos.
  */
@@ -354,6 +352,7 @@ async function getAllTodos() {
         const listTemplate = document.getElementById("ListTemplate").innerHTML;
         const renderedList = Mustache.render(listTemplate, { assignedTodos: detailedTodos });
         document.querySelector(".listT").innerHTML = renderedList;
+        renderTemplate("NumtodoList2Template", {nbTodos:detailedTodos.length},"NumtodoList2");
 
     } catch (error) {
         console.error("Erreur à la récupération des todos", error);

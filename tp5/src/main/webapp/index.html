@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MIF-TODOS</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <!--<link rel="stylesheet" href="css/bootstrap.css"> -->
 
     <link rel="stylesheet" href="css/app.css">
     <script async defer src="js/api-base.js"></script>
     <script async defer src="js/spa.js"></script>
+    <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/what-input/5.2.12/what-input.min.js"></script>
+    <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"/>
     <script async defer src="https://unpkg.com/mustache@latest"></script>
 </head>
 <body>
@@ -106,9 +111,9 @@
                 <div class="list">
                     <table>
                         <tr>
-                            <th></th>
                             <th>Titre</th>
-                            <th>Assigné à</th>
+                            <th></th>
+                            <th>Status</th>
                             <th></th>
                             <th></th>
                         </tr>
@@ -140,13 +145,13 @@
 
             <div class="container d-flex">
                 <div class ="row ">
-                    <div class="col-sm-2">
-                        <label class="form-label" for="newTodoTitle">Titre :</label>
+                    <div class="col-sm-1">
+                        <label class="form-label" for="newTodoTitle">Titre:</label>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
                         <input class="form-control" type="text" id="newTodoTitle" size="50" value="new todo">
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
                         <button type="button" class="btn btn-secondary" id="addTodo_button" onclick="createTodo()">Créer un nouveau todo</button>
                     </div>
                 </div>
@@ -158,13 +163,13 @@
 <footer>
     <div>Licence : <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/3.0/fr/"><img
             alt="Licence Creative Commons" style="border-width:0; vertical-align:middle;"
-            src="https://i.creativecommons.org/l/by-nc-sa/3.0/fr/88x31.png"/></a></div>
+            src="https://i.creativecommons.org/l/by-nc-sa/3.0/fr/88x31.png"loading="lazy"/></a></div>
 </footer>
 
-<!-- Bootstrap JS -->
+<!-- Bootstrap JS
 <script async defer src="js/vendor/jquery.js"></script>
 <script async defer src="js/vendor/popper.min.js"></script>
-<script async defer src="js/bootstrap.js"></script>
+<script async defer src="js/bootstrap.js"></script>-->
 
 </body>
 </html>
