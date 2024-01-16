@@ -143,4 +143,15 @@ Le temps moyen de chargement du chemin critique de rendu a connu une améliorati
 on a ajouté les attributs async et defer à nos scripts. Cela permet de rendre le téléchargement des scripts asynchrone (async), 
 ce qui ne bloque pas le rendu de la page, et de différer leur exécution jusqu'à ce que le document HTML soit entièrement analysé (defer).
 
+"Utilisation des CDN"
+
+"Les CDN permettent une gestion efficace de la charge, une distribution rapide des fichiers, 
+l'optimisation des images, le caching, et offrent des fonctionnalités de sécurité, 
+contribuant ainsi à une expérience utilisateur plus rapide, fiable et sécurisée."
+
+"Ajout delai chargement image"
+
+A la suite de l'ajout des CDN on est passé a 100% de performance donc on a preferé ne pas realiser les autres optimisation 
+
+
 
